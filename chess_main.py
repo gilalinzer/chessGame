@@ -36,9 +36,7 @@ WP = ChessPiece(piece_type=PieceType.PAWN, color=Color.WHITE)
 
 
 # ABC is "abstract base class"
-# changed to object for testing purposes, so we can make an instance of it
-
-
+# changed to object for testing purposes, so we can make an instance
 
 class ChessBoard(object):
     def __init__(self):
