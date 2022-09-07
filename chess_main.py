@@ -37,8 +37,7 @@ WP = ChessPiece(piece_type=PieceType.PAWN, color=Color.WHITE)
 
 # ABC is "abstract base class"
 # changed to object for testing purposes, so we can make an instance of it
-def selfpass():
-    pass
+
 
 
 class ChessBoard(object):
