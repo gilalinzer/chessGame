@@ -495,7 +495,7 @@ class ChessBoard(object):
             print("\n----------------------------|")
         print("\n\n\n")
 
-    def possible_moves(self, source: str, target: str) -> bool:
+    def possible_moves(self, source: str) -> bool:
 
         piece = self.get_piece(source)
 
