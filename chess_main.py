@@ -13,7 +13,6 @@ class PieceType(Enum):
     BISHOP = 3
     KNIGHT = 4
     PAWN = 5
-    DUMMY = 6
 
 
 class Color(Enum):
