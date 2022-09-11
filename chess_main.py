@@ -598,7 +598,7 @@ class ChessBoard(object):
 
     def find_move(self, turn_color):
         highest = 0
-        target = ()
+        target = (0,0)
         source = ()
 
         # let's build up a list of where all the pieces in that color are located
@@ -631,7 +631,7 @@ class ChessBoard(object):
         removed = self.board[target[0]][target[1]]
 
         if removed:
-            self.set_score(turn_color, removed.value)
+            self.set_score(turn_color, removed.piece_type.value)
 
         self.board[target[0]][target[1]] = self.board[source[0]][source[1]]
         self.board[source[0]][source[1]] = None
@@ -640,5 +640,6 @@ class ChessBoard(object):
 b = ChessBoard()
 b.show_board()
 print(b.move('h2', 'h4'))
+print(b.move_best_spot(Color.BLACK))
 b.show_board()
 
