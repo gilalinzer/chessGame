@@ -566,6 +566,10 @@ class ChessBoard(object):
         ans = (end_row, end_col)
 
         if ans in possible:  # the move is possible so do the move
+            # if you are getting the opponent out
+            if self.board[end_row][end_col] != None:
+                opponentPiece = self.board[end_row][end_col]
+                print(self.set_score(opponentPiece.color, opponentPiece.piece_type.value))
             self.board[end_row][end_col] = self.board[start_row][start_col]
             self.board[start_row][start_col] = None
             return True
