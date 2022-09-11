@@ -611,17 +611,18 @@ class ChessBoard(object):
             possible = self.possible_moves(None, spot)
             for row, col in possible:
                 spot = self.board[row][col]
+                if not target: target = (row, col)
                 if spot:
                     if not target and not source:
                         source = (spot[0], spot[1])
-                        target = (row, col)
                     if spot.piece_type.value > highest:
                         highest = spot.piece_type.value
                         target = (row, col)
-                return source, target
+        return source, target
 
     def move_best_spot(self, turn_color):
         source, target = self.find_move(turn_color)
+        print(target)
 
         removed = self.board[target[0]][target[1]]
 
@@ -636,11 +637,5 @@ b = ChessBoard()
 b.show_board()
 print(b.move('h2', 'h4'))
 b.show_board()
-# this is an illegal move
-print(b.move('a2', 'a5'))
-print(b.move('b1', 'c3'))
+print(b.move_best_spot(Color.BLACK))
 b.show_board()
-# make a white pawn capture its own kind aka an illegal move
-print(b.move('b2', 'c3'))
-# make a white pawn jump over
-print(b.move('c2', 'c4'))
