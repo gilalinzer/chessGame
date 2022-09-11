@@ -492,9 +492,12 @@ class ChessBoard(object):
             print("\n----------------------------|")
         print("\n\n\n")
 
-    def possible_moves(self, source: str) -> bool:
-
-        piece = self.get_piece(source)
+    def possible_moves(self, source=None, index=None) -> bool:
+        # this can either take a string such as b4 or a list index such as [2,1]
+        if source:
+            piece = self.get_piece(source)
+        elif index:
+            piece = self.board[index[0]][index[1]]
 
         if not piece:
             return False
@@ -537,19 +540,23 @@ class ChessBoard(object):
             else:
                 return self.move_BQ(start_col, start_row)
 
-    def move(self, source, target) -> bool:
+    def move(self, source=None, target=None, source_index=None, target_index=None) -> bool:
 
         # function returns a boolean indicating if the move was successful
-        possible = self.possible_moves(source)
+        possible = self.possible_moves(source, source_index)
 
-        # parsing inpput
-        start_col, start_row = source[0], source[1]
-        end_col, end_row = target[0], target[1]
+        if not source_index and not target_index:
+            start_col, start_row = source[0], source[1]
+            end_col, end_row = target[0], target[1]
 
-        # now we have to get the right indices in our 2d array
-        alpha = 'abcdefgh'
-        end_col, end_row = alpha.find(end_col), int(end_row) - 1
-        start_col, start_row = alpha.find(start_col), int(start_row) - 1
+            # now we have to get the right indices in our 2d array
+            alpha = 'abcdefgh'
+            end_col, end_row = alpha.find(end_col), int(end_row) - 1
+            start_col, start_row = alpha.find(start_col), int(start_row) - 1
+
+        else:
+            start_col, start_row = source_index[0], source_index[1]
+            end_col, end_row = target_index[0], target_index[1]
 
         # if the starting spot is empty --> we cannot move
         if not self.board[start_row][start_col]:
@@ -579,17 +586,17 @@ class ChessBoard(object):
             return True
         return False
 
+    def select_move(self, turn_color):
 
-    def select_move(self , turn_color):
         # let's build up a list of where all the pieces in that color are located
         sources = []
         for row in range(8):
             for col in range(8):
                 spot = self.board[row][col]
                 if spot and spot.color == turn_color:
-                    sources.append([row,col])
-
-
+                    sources.append([row, col])
+        for spot in sources:
+            possible = self.possible_moves(None,spot)
 
 
 
