@@ -618,7 +618,7 @@ class ChessBoard(object):
                     if spot.piece_type.value > highest:
                         highest = spot.piece_type.value
                         target = (row, col)
-                return source, target
+        return source, target
 
     def move_best_spot(self, turn_color):
         source, target = self.find_move(turn_color)
