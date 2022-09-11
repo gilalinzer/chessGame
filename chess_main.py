@@ -541,20 +541,19 @@ class ChessBoard(object):
 
 
     def move(self, source, target) -> bool:
+
         # function returns a boolean indicating if the move was successful
         possible = self.possible_moves(source)
 
-        start_col = source[0]
-        start_row = source[1]
-        end_col = target[0]
-        end_row = target[1]
-        alpha = 'abcdefgh'
+        # parsing inpput
+        start_col, start_row = source[0] , source[1]
+        end_col , end_row = target[0] , target[1]
 
         # now we have to get the right indices in our 2d array
-        end_col = alpha.find(end_col)
-        end_row = int(end_row) - 1
-        start_col = alpha.find(start_col)
-        start_row = int(start_row) - 1
+        alpha = 'abcdefgh'
+        end_col , end_row = alpha.find(end_col) , int(end_row) - 1
+        start_col , start_row = alpha.find(start_col) , int(start_row) - 1
+
         # if the starting spot is empty --> we cannot move
         if not self.board[start_row][start_col]:
             return None
@@ -574,29 +573,24 @@ class ChessBoard(object):
         rank = int(location[1]) - 1
         self.board[rank][file] = piece_type
 
+    def set_score(self, color, change) -> bool:
+        if color == Color.WHITE:
+            self.white_score -= change
+            return True
+        elif color == Color.BLACK:
+            self.black_score -= change
+            return True
+        return False
+
+    def eval_moves(self):
+        pass
 
 
 
 
-# import unittest
-#
-#
-# class TestBoard(unittest.TestCase):
-#     def test_setup(self):
-#         b = ChessBoard()
-#         self.assertEqual(b.get_piece("b2"), b.chessPiece(piece_type=PieceType.PAWN,
-#                                                        color=Color.WHITE))
-#
-#     def test_move(self):
-#         b = ChessBoard()
-#         b.move("b2", "b4")
-#         self.assertEqual(b.get_piece("b4"), b.chessPiece(piece_type=PieceType.PAWN,
-#                                                        color=Color.WHITE))
-#         self.assertEqual(b.get_piece("b2"), None)
-#
-#
-# if __name__ == "__main__":
-#     unittest.main()
+
+
+
 
 b = ChessBoard()
 b.show_board()
