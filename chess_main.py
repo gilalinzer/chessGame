@@ -585,7 +585,7 @@ class ChessBoard(object):
     def eval_moves(self):
         pass
 
-    def test(self):
+    def test_one(self):
         pass
 
 
