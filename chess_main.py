@@ -609,15 +609,18 @@ class ChessBoard(object):
                     sources.append([row, col])
         for spot in sources:
             possible = self.possible_moves(None, spot)
-            for row, col in possible:
-                spot = self.board[row][col]
-                if not target: target = (row, col)
-                if spot:
-                    if not target and not source:
-                        source = (spot[0], spot[1])
-                    if spot.piece_type.value > highest:
-                        highest = spot.piece_type.value
-                        target = (row, col)
+            if possible and len(possible) > 0:
+                print(f'this is possible {possible}')
+                for row, col in possible:
+                    spot = self.board[row][col]
+                    if spot:
+                        if not target and not source:
+                            source = (spot[0], spot[1])
+                            target = (row, col)
+                        if spot.piece_type.value > highest:
+                            highest = spot.piece_type.value
+                            target = (row, col)
+                            source = (spot[0], spot[1])
         return source, target
 
     def move_best_spot(self, turn_color):
