@@ -6,6 +6,7 @@ from typing import Union, List, Tuple
 import pytest
 import unittest
 
+
 class PieceType(Enum):
     KING = 1000
     QUEEN = 9
@@ -35,8 +36,6 @@ WN = ChessPiece(piece_type=PieceType.KNIGHT, color=Color.WHITE)
 WP = ChessPiece(piece_type=PieceType.PAWN, color=Color.WHITE)
 
 
-
-
 class ChessBoard(object):
     def __init__(self):
         # set up the board
@@ -51,7 +50,6 @@ class ChessBoard(object):
         # initialize the scores of both sides
         self.white_score = 1052
         self.black_score = 1052
-
 
     def clear_board(self) -> None:
         self.board = [[None] * 8 for i in range(8)]
@@ -539,20 +537,19 @@ class ChessBoard(object):
             else:
                 return self.move_BQ(start_col, start_row)
 
-
     def move(self, source, target) -> bool:
 
         # function returns a boolean indicating if the move was successful
         possible = self.possible_moves(source)
 
         # parsing inpput
-        start_col, start_row = source[0] , source[1]
-        end_col , end_row = target[0] , target[1]
+        start_col, start_row = source[0], source[1]
+        end_col, end_row = target[0], target[1]
 
         # now we have to get the right indices in our 2d array
         alpha = 'abcdefgh'
-        end_col , end_row = alpha.find(end_col) , int(end_row) - 1
-        start_col , start_row = alpha.find(start_col) , int(start_row) - 1
+        end_col, end_row = alpha.find(end_col), int(end_row) - 1
+        start_col, start_row = alpha.find(start_col), int(start_row) - 1
 
         # if the starting spot is empty --> we cannot move
         if not self.board[start_row][start_col]:
@@ -582,15 +579,9 @@ class ChessBoard(object):
             return True
         return False
 
-    def eval_moves(self):
-        pass
 
-    def test_ones(self):
-        pass
-
-
-
-
+    def select_move(self , turn_color):
+        for spot in self.board:
 
 
 
@@ -599,10 +590,10 @@ b.show_board()
 print(b.move('h2', 'h4'))
 b.show_board()
 # this is an illegal move
-print(b.move('a2','a5'))
-print(b.move('b1','c3'))
+print(b.move('a2', 'a5'))
+print(b.move('b1', 'c3'))
 b.show_board()
 # make a white pawn capture its own kind aka an illegal move
-print(b.move('b2','c3'))
+print(b.move('b2', 'c3'))
 # make a white pawn jump over
-print(b.move('c2','c4'))
+print(b.move('c2', 'c4'))
