@@ -392,7 +392,7 @@ class ChessBoard(object):
         moves = self.move_BB(start_col, start_row)
 
         # it can also move horizontally or vertically, so in any spot a rook can move
-        moves.append(self.move_BR(start_col, start_row))
+        moves+=(self.move_BR(start_col, start_row))
         return moves
 
     # for a White Queen - can move horizontally, vertically, or diagonally
@@ -400,9 +400,10 @@ class ChessBoard(object):
         # since the queen can move diagonal in any direction
         # it can do any move the bishop can
         moves = self.move_WB(start_col, start_row)
-
+        print(moves)
         # it can also move horizontally or vertically, in any spot a rook can move
-        moves.append(self.move_WR(start_col, start_row))
+        moves+=(self.move_WR(start_col, start_row))
+        print(moves)
         return moves
 
     # for a Black Knight - in L shape - 2 horizontally and 1 vertically or 1 horizontally and 2 vertically
@@ -640,5 +641,4 @@ b = ChessBoard()
 b.show_board()
 print(b.move('h2', 'h4'))
 b.show_board()
-print(b.move_best_spot(Color.BLACK))
-b.show_board()
+
