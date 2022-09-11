@@ -501,12 +501,13 @@ class ChessBoard(object):
 
         if not piece:
             return False
-        start_col = source[0]
-        start_row = source[1]
-        alpha = 'abcdefgh'
-        # now we have to get the right indices in our 2d array
-        start_col = alpha.find(start_col)
-        start_row = int(start_row) - 1
+        if source:
+            start_col = source[0]
+            start_row = source[1]
+            alpha = 'abcdefgh'
+            # now we have to get the right indices in our 2d array
+            start_col = alpha.find(start_col)
+            start_row = int(start_row) - 1
 
         # eval will call the function that corresponds to the piece that needs to move
         if piece.piece_type == PieceType.PAWN:
