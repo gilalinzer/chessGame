@@ -566,6 +566,8 @@ class ChessBoard(object):
         ans = (end_row, end_col)
 
         if ans in possible:  # the move is possible so do the move
+            if self.board[end_row][end_col]:
+                self.set_score(self.board[start_row][start_col].color, self.board[end_row][end_col].value)
             self.board[end_row][end_col] = self.board[start_row][start_col]
             self.board[start_row][start_col] = None
             return True
@@ -586,9 +588,10 @@ class ChessBoard(object):
             return True
         return False
 
-    def select_move(self, turn_color):
+    def find_move(self, turn_color):
         highest = 0
-        best = ()
+        target = None
+        source = None
 
         # let's build up a list of where all the pieces in that color are located
         sources = []
@@ -602,10 +605,31 @@ class ChessBoard(object):
             for row, col in possible:
                 spot = self.board[row][col]
                 if spot:
+                    # make sure that we actually return something
+                    if not target and not source:
+                        source = (spot[0],spot[1])
+                        target = (row,col)
                     if spot.piece_type.value > highest:
                         highest = spot.piece_type.value
-                        best = (row,col)
-        return best
+                        target = (row,col)
+        return source, target
+
+    def move_best_spot(self,turn_color):
+        source , target = self.find_move(turn_color)
+
+        removed = self.board[target[0]][target[1]]
+
+        if removed:
+            self.set_score(turn_color, removed.value)
+
+        self.board[target[0]][target[1]] = self.board[source[0]][source[1]]
+        self.board[source[0]][source[1]] = None
+
+
+
+
+
+
 
 
 
