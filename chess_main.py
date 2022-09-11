@@ -7,13 +7,12 @@ import pytest
 import unittest
 
 class PieceType(Enum):
-    KING = 0
-    QUEEN = 1
-    ROOK = 2
+    KING = 1000
+    QUEEN = 9
+    ROOK = 5
     BISHOP = 3
-    KNIGHT = 4
-    PAWN = 5
-    DUMMY
+    KNIGHT = 3.5
+    PAWN = 1
 
 
 class Color(Enum):
@@ -49,6 +48,9 @@ class ChessBoard(object):
                       [None, None, None, None, None, None, None, None],
                       [BP, BP, BP, BP, BP, BP, BP, BP],
                       [BR, BN, BB, BQ, BK, BB, BN, BR]]
+        # initialize the scores of both sides
+        self.white_score = 1052
+        self.black_score = 1052
 
 
     def clear_board(self) -> None:
@@ -540,7 +542,7 @@ class ChessBoard(object):
 
     def move(self, source, target) -> bool:
         # function returns a boolean indicating if the move was successful
-        possible = self.possible_moves(source, target)
+        possible = self.possible_moves(source)
 
         start_col = source[0]
         start_row = source[1]
