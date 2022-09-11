@@ -509,6 +509,11 @@ class ChessBoard(object):
             start_col = alpha.find(start_col)
             start_row = int(start_row) - 1
 
+        elif index:
+            start_row, start_col = index[0] , index[1]
+
+
+
         # eval will call the function that corresponds to the piece that needs to move
         if piece.piece_type == PieceType.PAWN:
             if piece.color == Color.WHITE:
