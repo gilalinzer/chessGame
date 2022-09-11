@@ -581,7 +581,15 @@ class ChessBoard(object):
 
 
     def select_move(self , turn_color):
-        for spot in self.board:
+        # let's build up a list of where all the pieces in that color are located
+        sources = []
+        for row in range(8):
+            for col in range(8):
+                spot = self.board[row][col]
+                if spot and spot.color == turn_color:
+                    sources.append([row,col])
+
+
 
 
 
