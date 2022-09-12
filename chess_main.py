@@ -400,10 +400,8 @@ class ChessBoard(object):
         # since the queen can move diagonal in any direction
         # it can do any move the bishop can
         moves = self.move_WB(start_col, start_row)
-        print(moves)
         # it can also move horizontally or vertically, in any spot a rook can move
         moves+=(self.move_WR(start_col, start_row))
-        print(moves)
         return moves
 
     # for a Black Knight - in L shape - 2 horizontally and 1 vertically or 1 horizontally and 2 vertically
@@ -598,35 +596,33 @@ class ChessBoard(object):
 
     def find_move(self, turn_color):
         highest = 0
-        target = (0,0)
-        source = ()
+        target = None
+        source = None
 
         # let's build up a list of where all the pieces in that color are located
-        sources = []
+        origins = []
         for row in range(8):
             for col in range(8):
                 spot = self.board[row][col]
                 if spot and spot.color == turn_color:
-                    sources.append([row, col])
-        for spot in sources:
-            possible = self.possible_moves(None, spot)
+                    origins.append([row, col])
+        for piece in origins: #
+            possible = self.possible_moves(None, piece)
             if possible and len(possible) > 0:
-                print(f'this is possible {possible}')
                 for row, col in possible:
-                    spot = self.board[row][col]
-                    if spot:
-                        if not target and not source:
-                            source = (spot[0], spot[1])
+                    if not target: # make sure you have some possible target to return
+                        source = (piece[0],piece[1])
+                        target = (row, col)
+                    location = self.board[row][col]
+                    if location:
+                        if piece.piece_type.value > highest:
+                            highest = piece.piece_type.value
                             target = (row, col)
-                        if spot.piece_type.value > highest:
-                            highest = spot.piece_type.value
-                            target = (row, col)
-                            source = (spot[0], spot[1])
+                            source = (piece[0], piece[1])
         return source, target
 
     def move_best_spot(self, turn_color):
         source, target = self.find_move(turn_color)
-        print(target)
 
         removed = self.board[target[0]][target[1]]
 
@@ -640,6 +636,11 @@ class ChessBoard(object):
 b = ChessBoard()
 b.show_board()
 print(b.move('h2', 'h4'))
+b.show_board()
 print(b.move_best_spot(Color.BLACK))
+b.show_board()
+b.move_best_spot(Color.WHITE)
+b.show_board()
+b.move_best_spot(Color.BLACK)
 b.show_board()
 
