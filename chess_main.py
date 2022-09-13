@@ -598,6 +598,7 @@ class ChessBoard(object):
         highest = 0
         target = 0,0
         source = ()
+        can_get_out = False
 
         # let's build up a list of where all the pieces in that color are located
         sources = []
@@ -609,6 +610,7 @@ class ChessBoard(object):
 
         # go through the list of all the pieces on the board find the possible moves for each piece
         for spot in sources:
+            print('spot', spot)
             possible = self.possible_moves(None, spot)
             print(spot, 'possible moves', possible)
 
@@ -618,25 +620,31 @@ class ChessBoard(object):
 
                 # go through the possible moves the piece can make
                 for row, col in possible:
-                    spot = self.board[row][col]
 
                     # if the opponent's piece is in that spot
-                    if spot:
+                    if self.board[row][col]:
+                        oppPiece = self.board[row][col]
+                        can_get_out = True
+
                         if not target and not source:
                             target = (row, col)
-                            source = (spot[0], spot[1])
+                            source = (oppPiece[0], oppPiece[1])
 
                         # if the value of the piece in that spot is greater than the value of a piece
                         # you previously encountered, then this piece becomes the highest and
                         # save its location so you can get it out
-                        if spot.piece_type.value > highest:
-                            highest = spot.piece_type.value
+                        if oppPiece.piece_type.value > highest:
+                            highest = oppPiece.piece_type.value
                             target = (row, col)
                             source = (spot[0], spot[1])
 
                     # if the spot is empty
                     else:
-                        source = (spot[0]), spot[1])
+                        # if we have not yet encountered a way to get another piece out then move the
+                        # most recent source, target pair we encountered
+                        if not can_get_out:
+                            source = (spot[0], spot[1])
+                            target = (row, col)
 
 
         return source, target
@@ -659,6 +667,11 @@ b = ChessBoard()
 b.show_board()
 print(b.move('h2', 'h4'))
 b.show_board()
-print(b.move_best_spot(Color.BLACK))
+print('ans',b.move_best_spot(Color.BLACK))
 b.show_board()
+print(b.move('h4', 'h5'))
+b.show_board()
+print('ans',b.move_best_spot(Color.BLACK))
+b.show_board()
+
 
