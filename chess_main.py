@@ -586,11 +586,11 @@ class ChessBoard(object):
         if color == Color.WHITE:
             self.white_score -= change
             score = abs(self.white_score - self.black_score)
-            return 'white score', score
+            return f' white score {score}'
         elif color == Color.BLACK:
             self.black_score -= change
             score = abs(self.white_score - self.black_score)
-            return 'black score', score
+            return f'black score{score}'
         return False
 
     def find_move(self, turn_color):
