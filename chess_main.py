@@ -570,7 +570,7 @@ class ChessBoard(object):
         if ans in possible:  # the move is possible so do the move
             # if you are getting the opponent out, update the opponent score
             if self.board[end_row][end_col]:
-                self.set_score(self.board[start_row][start_col].color, self.board[end_row][end_col].value)
+                print(self.set_score(self.board[start_row][start_col].color, self.board[end_row][end_col].piece_type.value))
             self.board[end_row][end_col] = self.board[start_row][start_col]
             self.board[start_row][start_col] = None
             return True
@@ -585,10 +585,13 @@ class ChessBoard(object):
     def set_score(self, color, change) -> bool:
         if color == Color.WHITE:
             self.white_score -= change
-            return True
+            score = abs(self.white_score - self.black_score)
+            print('change', change)
+            return 'white score', score
         elif color == Color.BLACK:
             self.black_score -= change
-            return True
+            score = abs(self.white_score - self.black_score)
+            return 'black score', score
         return False
 
     def find_move(self, turn_color):
@@ -636,7 +639,7 @@ class ChessBoard(object):
         removed = self.board[target[0]][target[1]]
 
         if removed:
-            self.set_score(turn_color, removed.piece_type.value)
+            print(self.set_score(turn_color, removed.piece_type.value))
 
         self.board[target[0]][target[1]] = self.board[source[0]][source[1]]
         self.board[source[0]][source[1]] = None
@@ -658,4 +661,7 @@ print(b.move('g2', 'g4'))
 b.show_board()
 b.move_best_spot(Color.BLACK)
 b.show_board()
-
+print(b.move('f2', 'f3'))
+b.show_board()
+b.move_best_spot(Color.WHITE)
+b.show_board()
