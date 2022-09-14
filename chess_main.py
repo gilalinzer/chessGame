@@ -586,7 +586,6 @@ class ChessBoard(object):
         if color == Color.WHITE:
             self.white_score -= change
             score = abs(self.white_score - self.black_score)
-            print('change', change)
             return 'white score', score
         elif color == Color.BLACK:
             self.black_score -= change
