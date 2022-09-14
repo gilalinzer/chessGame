@@ -84,6 +84,7 @@ class ChessBoard(object):
 
         # checking if it can move forward one spot
         r = start_row - 1
+
         # if there is no other piece in that spot
         if not self.board[r][start_col]:
             moves.append((r, start_col))
@@ -387,8 +388,7 @@ class ChessBoard(object):
 
     # for a Black Queen - can move horizontally, vertically, or diagonally
     def move_BQ(self, start_col, start_row) -> list:
-        # since the queen can move diagonal in any direction
-        # it can do any move the bishop can
+        # since the queen can move diagonal in any direction it can do any move the bishop can
         moves = self.move_BB(start_col, start_row)
 
         # it can also move horizontally or vertically, so in any spot a rook can move
@@ -397,13 +397,10 @@ class ChessBoard(object):
 
     # for a White Queen - can move horizontally, vertically, or diagonally
     def move_WQ(self, start_col, start_row) -> list:
-        # since the queen can move diagonal in any direction
-        # it can do any move the bishop can
+        # since the queen can move diagonal in any direction it can do any move the bishop can
         moves = self.move_WB(start_col, start_row)
-        print(moves)
         # it can also move horizontally or vertically, in any spot a rook can move
         moves+=(self.move_WR(start_col, start_row))
-        print(moves)
         return moves
 
     # for a Black Knight - in L shape - 2 horizontally and 1 vertically or 1 horizontally and 2 vertically
@@ -596,63 +593,45 @@ class ChessBoard(object):
 
     def find_move(self, turn_color):
         highest = 0
-        target = 0,0
-        source = ()
-        can_get_out = False
+        target = None
+        source = None
 
         # let's build up a list of where all the pieces in that color are located
-        sources = []
+        origins = []
         for row in range(8):
             for col in range(8):
                 spot = self.board[row][col]
                 if spot and spot.color == turn_color:
-                    sources.append([row, col])
+                    origins.append([row, col])
 
-        # go through the list of all the pieces on the board find the possible moves for each piece
-        for spot in sources:
-            print('spot', spot)
-            possible = self.possible_moves(None, spot)
-            print(spot, 'possible moves', possible)
+        # go through the list of all the pieces on the board and find the possible moves for each piece
+        for piece in origins:
+            possible = self.possible_moves(None, piece)
 
             # if the piece is able to move
             if possible and len(possible) > 0:
-                print(f'this is possible {possible}')
 
-                # go through the possible moves the piece can make
+                #go through the possible moves the piece can make
                 for row, col in possible:
+                    if not target: # make sure you have some possible target to return
+                        source = (piece[0],piece[1])
+                        target = (row, col)
 
-                    # if the opponent's piece is in that spot
-                    if self.board[row][col]:
-                        oppPiece = self.board[row][col]
-                        can_get_out = True
+                    #if the opponent's piece is in that spot
+                    location = self.board[row][col]
+                    if location:
 
-                        if not target and not source:
+                        # if the value of the piece you are able to get out is greater than the value of a previous
+                        # piece you encountered, then this move is the highest, so save its location
+                        if location.piece_type.value > highest:
+                            highest = location.piece_type.value
                             target = (row, col)
-                            source = (oppPiece[0], oppPiece[1])
-
-                        # if the value of the piece in that spot is greater than the value of a piece
-                        # you previously encountered, then this piece becomes the highest and
-                        # save its location so you can get it out
-                        if oppPiece.piece_type.value > highest:
-                            highest = oppPiece.piece_type.value
-                            target = (row, col)
-                            source = (spot[0], spot[1])
-
-                    # if the spot is empty
-                    else:
-                        # if we have not yet encountered a way to get another piece out then move the
-                        # most recent source, target pair we encountered
-                        if not can_get_out:
-                            source = (spot[0], spot[1])
-                            target = (row, col)
-
+                            source = (piece[0], piece[1])
 
         return source, target
 
     def move_best_spot(self, turn_color):
         source, target = self.find_move(turn_color)
-        print('source', source)
-        print('target', target)
 
         removed = self.board[target[0]][target[1]]
 
@@ -667,11 +646,16 @@ b = ChessBoard()
 b.show_board()
 print(b.move('h2', 'h4'))
 b.show_board()
-print('ans',b.move_best_spot(Color.BLACK))
+print(b.move_best_spot(Color.BLACK))
 b.show_board()
-print(b.move('h4', 'h5'))
+b.move_best_spot(Color.WHITE)
 b.show_board()
-print('ans',b.move_best_spot(Color.BLACK))
+b.move_best_spot(Color.BLACK)
 b.show_board()
-
+print(b.move('g8', 'f6'))
+b.show_board()
+print(b.move('g2', 'g4'))
+b.show_board()
+b.move_best_spot(Color.BLACK)
+b.show_board()
 
